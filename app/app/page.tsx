@@ -15,9 +15,9 @@ export default async function NotesPage() {
     redirect('/login')
   }
 
-  // TODO: Replace this hardcoded data with real data from Supabase
-  // HINT: You'll need to fetch notes from the 'notes' table
-  // HINT: Filter by user_id to show only the current user's notes
+  // TODO: Feature 1 - Connect Notes to Database
+  // Replace this hardcoded data with real data from Supabase
+  // Fetch notes from the 'notes' table for the current user
   const hardcodedNotes = [
     {
       id: '1',
@@ -64,20 +64,18 @@ export default async function NotesPage() {
         <div className="mb-6 flex items-center justify-between">
           <h2 className="text-xl font-semibold text-gray-900">My Notes</h2>
           <div className="flex gap-3">
-            {/* TODO: Implement AI Summarize functionality */}
-            {/* HINT: Create a Server Action that:
+            {/* TODO: Feature 4 - AI Summarize
+                Create a Server Action that:
                 1. Fetches all user notes
-                2. Sends them to OpenAI API
-                3. Returns a summary
-                4. Consider: What if there are too many notes? Token limits?
-                5. Consider: What if notes contain sensitive data? */}
+                2. Sends to OpenAI API
+                3. Returns and displays a summary */}
             <Button variant="secondary" disabled>
               AI Summarize (TODO)
             </Button>
 
-            {/* TODO: Implement Create Note functionality */}
-            {/* HINT: You can use a modal (Dialog component) or inline form */}
-            {/* HINT: Create a Server Action to insert into Supabase */}
+            {/* TODO: Feature 2 - Create New Note
+                Implement "+ New Note" button functionality
+                Save to Supabase and update UI */}
             <Button>+ New Note (TODO)</Button>
           </div>
         </div>
@@ -89,9 +87,8 @@ export default async function NotesPage() {
               <CardHeader>
                 <div className="flex items-start justify-between">
                   <CardTitle className="text-lg">{note.title}</CardTitle>
-                  {/* TODO: Implement Delete Note functionality */}
-                  {/* HINT: Create a Server Action to delete from Supabase */}
-                  {/* HINT: Should you add a confirmation dialog? */}
+                  {/* TODO: Feature 3 - Delete Note
+                      Remove from database and update UI */}
                   <Button variant="ghost" size="sm" disabled>
                     Delete (TODO)
                   </Button>

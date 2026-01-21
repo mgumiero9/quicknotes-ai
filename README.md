@@ -1,108 +1,147 @@
 # QuickNotes AI - Technical Assessment
 
-Welcome to the QuickNotes AI technical assessment! This is a **partially built** note-taking application with AI capabilities. Your task is to complete the missing functionality.
-
-## Time Allocation: 75 minutes
-
-Please manage your time wisely. The core requirements should take priority over stretch goals.
+Welcome! This is a **2-hour live coding assessment** where you'll complete a partially built note-taking application with AI capabilities.
 
 ---
 
-## What's Already Implemented
+## Assessment Format
 
-We've set up the foundation for you:
+This assessment has **3 phases**:
 
-- ✅ **Next.js 14** with App Router and TypeScript
-- ✅ **Authentication** with Supabase (login/signup working)
-- ✅ **Database schema** with `notes` table and Row Level Security (RLS)
-- ✅ **UI components** using Tailwind CSS and shadcn/ui
-- ✅ **Basic layout** with header and navigation
-- ✅ **Static notes page** showing 3 hardcoded notes
+### Phase 1: Briefing (15 minutes)
+- Evaluator explains the project and answers your questions
+- Fork the repository and set up your environment
+
+### Phase 2: Execution (75 minutes) - RECORDING YOURSELF
+- **You'll be ALONE** (evaluator not present)
+- **Record your screen and audio** (Loom recommended)
+- **Think out loud** - Explain your reasoning as you code
+- Implement the 4 required features
+- **STRICT TIME LIMIT: 75 minutes**
+
+### Phase 3: Debrief (30 minutes)
+- Evaluator will have reviewed your code and recording
+- Discuss your implementation decisions and approach
+- Technical Q&A
 
 ---
 
-## Your Tasks
+## What You'll Build
 
-### Core Requirements (Must Complete)
+### Already Implemented
 
-These are the **required** features you must implement:
+The foundation is ready:
+- ✅ Next.js 14 with App Router and TypeScript
+- ✅ Authentication (login/signup working)
+- ✅ PostgreSQL database with Supabase
+- ✅ UI components (Tailwind CSS + shadcn/ui)
+- ✅ Docker setup (one command to run)
+- ✅ Static notes page with hardcoded data
 
-1. **Connect Notes to Database**
-   - Replace the hardcoded notes in `app/page.tsx` with real data from Supabase
-   - Fetch notes for the currently logged-in user
-   - Display notes in the same card layout
+### Your Tasks - 4 Required Features
 
-2. **Create New Note**
-   - Add functionality to the "+ New Note" button
-   - Can be a modal dialog or inline form (your choice)
-   - Save new notes to Supabase
-   - Refresh the page or update the UI to show the new note
+You **MUST** implement these features:
 
-3. **Delete Note**
-   - Add functionality to the "Delete" button on each note card
-   - Remove the note from Supabase
-   - Update the UI to reflect the deletion
+#### 1. Connect Notes to Database
+- Replace hardcoded notes in `app/app/page.tsx` with real data from Supabase
+- Fetch notes for the logged-in user only
+- Display in the existing card layout
 
-4. **AI Summarize Feature**
-   - Implement the "AI Summarize" button
-   - Fetch all user notes and send them to OpenAI API
-   - Generate a summary paragraph combining all notes
-   - Display the summary to the user (your choice of UI)
+#### 2. Create New Note
+- Implement the "+ New Note" button
+- Allow users to create notes with title and content
+- Save to Supabase and update the UI
 
-### Stretch Goals (If Time Permits)
+#### 3. Delete Note
+- Implement the "Delete" button on each note card
+- Remove from database and update the UI
 
-If you finish early, consider implementing:
-
-- 🎯 Search or filter notes
-- 🎯 Edit existing notes (inline or modal)
-- 🎯 Better error handling and user feedback
-- 🎯 Loading states and optimistic updates
-- 🎯 Input validation
+#### 4. AI Summarize Feature
+- Implement the "AI Summarize" button
+- Fetch all user notes and send to OpenAI
+- Generate a summary of all notes
+- Display the result
 
 ---
 
 ## Getting Started
 
-### Prerequisites
+### Setup (During Briefing Phase)
 
-- Docker and Docker Compose installed
-- OpenAI API key ([get one here](https://platform.openai.com/api-keys))
+1. **Fork the repository** (evaluator will share the link)
 
-### Setup Instructions
+2. **Clone your fork**:
+```bash
+git clone https://github.com/YOUR-USERNAME/quicknotes-ai.git
+cd quicknotes-ai
+```
 
-1. **Clone the repository** (or extract the provided archive)
+3. **Create your working branch**:
+```bash
+git checkout -b feature/implementation
+```
 
-2. **Create environment file**
-   ```bash
-   cp .env.example .env
-   ```
+4. **Start the application**:
+```bash
+docker-compose up
+```
 
-3. **Add your OpenAI API key**
+Wait ~60 seconds for services to start.
 
-   Edit `.env` and replace `your_openai_api_key_here` with your actual key:
-   ```env
-   OPENAI_API_KEY=sk-...
-   ```
+5. **Verify everything works**:
+- App: http://localhost:3000
+- Supabase Studio: http://localhost:3001
+- Create an account and login
 
-4. **Start the application**
-   ```bash
-   docker-compose up
-   ```
+### During Execution Phase (75 minutes)
 
-   This single command will:
-   - Start Supabase (PostgreSQL, Auth, API)
-   - Start the Next.js development server
-   - Run database migrations
-   - Set up everything you need
+**When evaluator says "START":**
 
-5. **Access the application**
-   - **App**: http://localhost:3000
-   - **Supabase Studio** (database viewer): http://localhost:3001
+1. **START YOUR RECORDING** (Loom, Zoom, or similar)
+2. Say the current time out loud
+3. Open `app/app/page.tsx` - this file contains TODO comments
+4. Begin implementing the 4 features
+5. **Think out loud** constantly - explain what you're doing and why
 
-6. **Create an account**
-   - Go to http://localhost:3000
-   - Click "Sign up" and create a test account
-   - You'll be redirected to the notes page
+**When time is up (75 minutes):**
+
+1. **STOP CODING** immediately
+2. Commit your work:
+```bash
+git add .
+git commit -m "Complete assessment: [list features completed]"
+git push origin feature/implementation
+```
+3. **STOP YOUR RECORDING**
+4. Upload video (Loom/YouTube unlisted)
+5. Create Pull Request in YOUR fork
+6. Send evaluator:
+   - PR link
+   - Recording link
+
+---
+
+## Recording Requirements
+
+### You MUST Record
+
+- ✅ Screen recording (full screen or IDE only)
+- ✅ Audio recording (microphone on)
+- ✅ **Think out loud** the entire time
+
+### What We're Evaluating
+
+- Problem-solving approach
+- Debugging process
+- Decision-making
+- Communication skills
+- Code quality
+
+### Before Starting
+
+- [ ] Recording software ready (Loom: https://www.loom.com)
+- [ ] Microphone working
+- [ ] Test record 10 seconds to verify
 
 ---
 
@@ -111,43 +150,24 @@ If you finish early, consider implementing:
 ```
 app/
 ├── app/
-│   ├── page.tsx              # Main notes page (TODO: fetch real data)
+│   ├── page.tsx              # ← START HERE (has TODOs)
 │   ├── login/
-│   │   ├── page.tsx          # Login/signup page (✅ working)
-│   │   └── actions.ts        # Auth actions (✅ working)
-│   ├── layout.tsx            # Root layout
-│   └── globals.css           # Global styles
-├── components/
-│   └── ui/                   # shadcn/ui components (✅ ready to use)
-│       ├── button.tsx
-│       ├── card.tsx
-│       ├── input.tsx
-│       ├── label.tsx
-│       └── textarea.tsx
+│   │   ├── page.tsx          # Auth working
+│   │   └── actions.ts        # Server actions example
+│   └── ...
+├── components/ui/            # shadcn/ui components
 ├── lib/
 │   ├── supabase/
-│   │   ├── client.ts         # Client-side Supabase client
-│   │   └── server.ts         # Server-side Supabase client
-│   └── utils.ts              # Utility functions
-└── middleware.ts             # Session management
-
-supabase/
-├── migrations/
-│   └── 001_init.sql          # Database schema (✅ auto-run)
-└── seed/
-    └── seed.sql              # Optional test data
-
-docker-compose.yml            # Docker configuration
-.env.example                  # Environment template
+│   │   ├── client.ts         # Client-side Supabase
+│   │   ├── server.ts         # Server-side Supabase
+│   │   └── types.ts
+│   └── utils.ts
+└── middleware.ts
 ```
 
 ---
 
-## Helpful Resources
-
-### Database Schema
-
-The `notes` table has the following structure:
+## Database Schema
 
 ```sql
 notes (
@@ -160,136 +180,16 @@ notes (
 )
 ```
 
-### Supabase Client Usage
-
-**Fetching notes:**
-```typescript
-const supabase = await createClient()
-const { data: notes } = await supabase
-  .from('notes')
-  .select('*')
-  .order('created_at', { ascending: false })
-```
-
-**Creating a note:**
-```typescript
-const { data, error } = await supabase
-  .from('notes')
-  .insert({
-    user_id: user.id,
-    title: 'Note title',
-    content: 'Note content'
-  })
-  .select()
-  .single()
-```
-
-**Deleting a note:**
-```typescript
-const { error } = await supabase
-  .from('notes')
-  .delete()
-  .eq('id', noteId)
-```
-
-### OpenAI API Usage
-
-**Example summarization:**
-```typescript
-import OpenAI from 'openai'
-
-const openai = new OpenAI({
-  apiKey: process.env.OPENAI_API_KEY
-})
-
-const response = await openai.chat.completions.create({
-  model: 'gpt-3.5-turbo',
-  messages: [
-    {
-      role: 'system',
-      content: 'You are a helpful assistant that summarizes notes.'
-    },
-    {
-      role: 'user',
-      content: `Summarize these notes: ${notesText}`
-    }
-  ]
-})
-
-const summary = response.choices[0].message.content
-```
-
-### Next.js Server Actions
-
-You can use Server Actions for form submissions and mutations:
-
-```typescript
-'use server'
-
-export async function createNote(formData: FormData) {
-  const supabase = await createClient()
-  // ... your logic
-}
-```
+Row Level Security (RLS) is configured - users can only access their own notes.
 
 ---
 
-## Testing Your Implementation
+## Technical Resources
 
-### Manual Testing Checklist
-
-- [ ] Can create a new note and see it in the list
-- [ ] Can delete a note and see it removed from the list
-- [ ] Notes persist after page refresh
-- [ ] AI Summarize generates a meaningful summary
-- [ ] Only my notes are visible (not other users' notes)
-- [ ] Auth works (logout and login again)
-
-### Using Supabase Studio
-
-1. Go to http://localhost:3001
-2. Navigate to "Table Editor" → "notes"
-3. View, edit, or delete notes directly
-4. Check that RLS policies are working (you should only see your notes)
-
----
-
-## Important Considerations
-
-As you implement the features, think about:
-
-- **Security**: Are you validating user input? Could malicious data be injected?
-- **Error Handling**: What happens if the database is unavailable? If OpenAI fails?
-- **User Experience**: Are there loading states? Confirmation dialogs for destructive actions?
-- **Scalability**: What if a user has 1000 notes? Should you paginate?
-- **Privacy**: What if notes contain sensitive data (PII)? Should you sanitize before sending to AI?
-
----
-
-## Getting Help
-
-### Common Issues
-
-**Port already in use:**
-```bash
-docker-compose down
-docker-compose up
-```
-
-**Database not initialized:**
-```bash
-docker-compose down -v  # WARNING: This deletes all data
-docker-compose up
-```
-
-**Can't connect to Supabase:**
-- Check that all containers are running: `docker-compose ps`
-- Wait 30 seconds after startup for services to be ready
-
-**OpenAI API errors:**
-- Verify your API key in `.env`
-- Check you have credits: https://platform.openai.com/account/usage
-- Ensure no extra spaces in the key
+- **Supabase Client (Server)**: `import { createClient } from '@/lib/supabase/server'`
+- **OpenAI**: Already configured via `OPENAI_API_KEY` environment variable
+- **UI Components**: Available in `components/ui/`
+- **Database Studio**: http://localhost:3001 to view your data in real-time
 
 ### Useful Commands
 
@@ -297,36 +197,93 @@ docker-compose up
 # View logs
 docker-compose logs -f app
 
-# Restart just the app
+# Restart app
 docker-compose restart app
 
 # Stop everything
 docker-compose down
 
-# Reset database (deletes all data)
-docker-compose down -v
-docker-compose up
+# Fresh start (deletes data)
+docker-compose down -v && docker-compose up
 ```
 
 ---
 
 ## Evaluation Criteria
 
-You will be evaluated on:
+You'll be evaluated on:
 
-1. **Functionality** - Does it work as specified?
-2. **Code Quality** - Is the code clean, organized, and well-typed?
-3. **Problem Solving** - How do you approach challenges?
-4. **Security Awareness** - Do you consider security implications?
-5. **Communication** - Can you explain your decisions?
+1. **Functionality** (40%) - Do the features work correctly?
+2. **Code Quality** (25%) - Clean, organized, well-structured code?
+3. **Problem Solving** (20%) - How do you approach and solve challenges?
+4. **Communication** (15%) - Can you explain your thinking clearly?
+
+**Important**: We care more about **HOW** you solve problems than getting everything perfect.
 
 ---
 
-## Questions?
+## Tips for Success
 
-During the briefing, feel free to ask clarifying questions about:
-- Requirements or expected behavior
-- Technology usage or best practices
-- Anything that's unclear
+### Time Management
+- Don't get stuck on one feature for too long
+- Start with basic implementations first
+- Test as you go
+- Commit frequently
 
-**Good luck! We're excited to see what you build.** 🚀
+### Communication
+- **Think out loud constantly** - "I'm going to...", "This should...", "The error is..."
+- Explain your decisions: "I'm using a Server Action because..."
+- Narrate what you're debugging: "Let me check the console..."
+
+### If You Get Stuck
+- Read error messages carefully
+- Check how auth is implemented (good reference)
+- Review the TODO comments in the code
+- Google and AI assistants (ChatGPT/Copilot) are allowed - just explain your usage
+
+### What to Avoid
+- ❌ Working in silence
+- ❌ Spending too much time on UI polish
+- ❌ Going over the 75-minute limit
+- ❌ Forgetting to commit and push
+- ❌ Forgetting to share your recording
+
+---
+
+## Troubleshooting
+
+### Docker won't start
+```bash
+docker-compose down -v
+docker-compose up
+```
+
+### Port already in use
+```bash
+lsof -ti:3000 | xargs kill  # Mac/Linux
+```
+
+### Database not connecting
+- Wait 60 seconds after startup
+- Check: `docker-compose ps` (all should be "healthy")
+
+### Can't record
+- Loom (easiest): https://www.loom.com
+- Zoom: Start meeting → Share screen → Record
+- QuickTime (Mac): File → New Screen Recording
+
+---
+
+## Ready to Start?
+
+When the evaluator says **"Begin your 75 minutes"**:
+
+1. ✅ Start recording
+2. ✅ Say current time out loud
+3. ✅ Open `app/app/page.tsx`
+4. ✅ Read the TODO comments
+5. ✅ Start with Feature 1
+6. ✅ Think out loud
+7. ✅ Code methodically
+
+**Good luck! Show us how you think and solve problems.** 🚀
