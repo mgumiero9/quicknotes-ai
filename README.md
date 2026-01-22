@@ -68,7 +68,7 @@ You **MUST** implement these features:
 
 ### Setup (During Briefing Phase)
 
-1. **Fork the repository** (evaluator will share the link)
+1. **Fork this repository**
 
 2. **Clone your fork**:
 ```bash
@@ -83,15 +83,22 @@ git checkout -b feature/implementation
 
 4. **Start the application**:
 ```bash
-docker-compose up
+docker compose up
 ```
 
-Wait ~60 seconds for services to start.
+**IMPORTANT**: Keep this terminal open to see logs. Wait ~60 seconds for services to start.
+
+You'll see output from:
+- Next.js dev server (your app)
+- PostgreSQL (database)
+- Supabase Auth (authentication)
+- Other Supabase services
 
 5. **Verify everything works**:
 - App: http://localhost:3000
 - Supabase Studio: http://localhost:3001
 - Create an account and login
+- **You'll automatically get 5 sample notes** when you first sign up!
 
 ### During Execution Phase (75 minutes)
 
@@ -119,29 +126,6 @@ git push origin feature/implementation
    - PR link
    - Recording link
 
----
-
-## Recording Requirements
-
-### You MUST Record
-
-- ✅ Screen recording (full screen or IDE only)
-- ✅ Audio recording (microphone on)
-- ✅ **Think out loud** the entire time
-
-### What We're Evaluating
-
-- Problem-solving approach
-- Debugging process
-- Decision-making
-- Communication skills
-- Code quality
-
-### Before Starting
-
-- [ ] Recording software ready (Loom: https://www.loom.com)
-- [ ] Microphone working
-- [ ] Test record 10 seconds to verify
 
 ---
 
@@ -179,32 +163,28 @@ notes (
   updated_at TIMESTAMP
 )
 ```
-
-Row Level Security (RLS) is configured - users can only access their own notes.
-
 ---
-
-## Technical Resources
-
-- **Supabase Client (Server)**: `import { createClient } from '@/lib/supabase/server'`
-- **OpenAI**: Already configured via `OPENAI_API_KEY` environment variable
-- **UI Components**: Available in `components/ui/`
-- **Database Studio**: http://localhost:3001 to view your data in real-time
 
 ### Useful Commands
 
 ```bash
-# View logs
-docker-compose logs -f app
+# View all logs in real-time (run docker compose up in foreground)
+docker compose up
 
-# Restart app
-docker-compose restart app
+# Or run in background and follow specific service logs
+docker compose up -d
+docker compose logs -f app           # Next.js app logs
+docker compose logs -f db            # Database logs
+docker compose logs -f auth          # Auth service logs
+
+# Restart specific service
+docker compose restart app
 
 # Stop everything
-docker-compose down
+docker compose down
 
-# Fresh start (deletes data)
-docker-compose down -v && docker-compose up
+# Fresh start (deletes ALL data including database)
+docker compose down -v && docker compose up
 ```
 
 ---
@@ -239,14 +219,7 @@ You'll be evaluated on:
 - Read error messages carefully
 - Check how auth is implemented (good reference)
 - Review the TODO comments in the code
-- Google and AI assistants (ChatGPT/Copilot) are allowed - just explain your usage
-
-### What to Avoid
-- ❌ Working in silence
-- ❌ Spending too much time on UI polish
-- ❌ Going over the 75-minute limit
-- ❌ Forgetting to commit and push
-- ❌ Forgetting to share your recording
+- Google and AI assistants are allowed - just explain your usage
 
 ---
 
@@ -254,8 +227,8 @@ You'll be evaluated on:
 
 ### Docker won't start
 ```bash
-docker-compose down -v
-docker-compose up
+docker compose down -v
+docker compose up
 ```
 
 ### Port already in use
@@ -263,27 +236,24 @@ docker-compose up
 lsof -ti:3000 | xargs kill  # Mac/Linux
 ```
 
+### Can't see logs / Don't know what's happening
+- Run `docker compose up` (without `-d`) to see all logs in real-time
+- Or use `docker compose logs -f app` to follow app logs specifically
+- Check `docker compose ps` to see service health status
+
 ### Database not connecting
 - Wait 60 seconds after startup
-- Check: `docker-compose ps` (all should be "healthy")
+- Check: `docker compose ps` (all should be "healthy")
+- View database logs: `docker compose logs db`
 
-### Can't record
-- Loom (easiest): https://www.loom.com
-- Zoom: Start meeting → Share screen → Record
-- QuickTime (Mac): File → New Screen Recording
+### Can't register/login
+- Check auth service logs: `docker compose logs auth`
+- Verify database is healthy: `docker compose ps db`
+- Try restarting: `docker compose restart auth`
+
+### No sample notes appearing after signup
+- Sample notes are created automatically via database trigger
+- Check database logs: `docker compose logs db`
+- Verify migration ran: Check Supabase Studio → SQL Editor → Run: `SELECT * FROM public.notes;`
 
 ---
-
-## Ready to Start?
-
-When the evaluator says **"Begin your 75 minutes"**:
-
-1. ✅ Start recording
-2. ✅ Say current time out loud
-3. ✅ Open `app/app/page.tsx`
-4. ✅ Read the TODO comments
-5. ✅ Start with Feature 1
-6. ✅ Think out loud
-7. ✅ Code methodically
-
-**Good luck! Show us how you think and solve problems.** 🚀

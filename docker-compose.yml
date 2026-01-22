@@ -1,5 +1,3 @@
-version: '3.8'
-
 services:
   # Next.js Application
   app:
@@ -22,6 +20,15 @@ services:
     networks:
       - quicknotes-network
     command: npm run dev
+    # Logging configuration to see output
+    logging:
+      driver: "json-file"
+      options:
+        max-size: "10m"
+        max-file: "3"
+    # Always show logs in the console
+    stdin_open: true
+    tty: true
 
   # Supabase Local Stack
   studio:
@@ -51,7 +58,7 @@ services:
     container_name: supabase-kong
     image: kong:2.8.1
     restart: unless-stopped
-    entrypoint: bash -c 'eval "echo \"$$(cat ~/temp.yml)\"" > ~/kong.yml && /docker-entrypoint.sh kong docker-start'
+    entrypoint: bash -c 'cat ~/temp.yml | sed "s/\$${SUPABASE_ANON_KEY}/${SUPABASE_ANON_KEY}/g" | sed "s/\$${SUPABASE_SERVICE_KEY}/${SUPABASE_SERVICE_KEY}/g" > ~/kong.yml && /docker-entrypoint.sh kong docker-start'
     ports:
       - "8000:8000"
       - "8443:8443"
@@ -105,8 +112,15 @@ services:
       GOTRUE_MAILER_URLPATHS_CONFIRMATION: /auth/v1/verify
       GOTRUE_MAILER_URLPATHS_RECOVERY: /auth/v1/verify
       GOTRUE_MAILER_URLPATHS_EMAIL_CHANGE: /auth/v1/verify
+      GOTRUE_LOG_LEVEL: info
     networks:
       - quicknotes-network
+    # Logging configuration
+    logging:
+      driver: "json-file"
+      options:
+        max-size: "10m"
+        max-file: "3"
 
   rest:
     container_name: supabase-rest
@@ -145,7 +159,7 @@ services:
       DB_USER: supabase_admin
       DB_PASSWORD: ${POSTGRES_PASSWORD}
       DB_NAME: postgres
-      DB_AFTER_CONNECT_QUERY: 'SET search_path TO _realtime'
+      DB_AFTER_CONNECT_QUERY: 'SET search_path TO realtime'
       DB_ENC_KEY: supabaserealtime
       API_JWT_SECRET: ${JWT_SECRET}
       FLY_ALLOC_ID: fly123
@@ -240,7 +254,7 @@ services:
       - -c
       - config_file=/etc/postgresql/postgresql.conf
       - -c
-      - log_min_messages=fatal
+      - log_min_messages=info
     restart: unless-stopped
     ports:
       - "5432:5432"
@@ -250,9 +264,15 @@ services:
       POSTGRES_INITDB_ARGS: "--encoding=UTF-8 --lc-collate=C --lc-ctype=C"
     volumes:
       - db-data:/var/lib/postgresql/data
-      - ./supabase/migrations:/docker-entrypoint-initdb.d
+      - ./supabase/migrations/000_init_passwords.sql:/docker-entrypoint-initdb.d/zzzz-init-passwords.sql:ro
     networks:
       - quicknotes-network
+    # Logging configuration
+    logging:
+      driver: "json-file"
+      options:
+        max-size: "10m"
+        max-file: "3"
 
   inbucket:
     container_name: supabase-inbucket

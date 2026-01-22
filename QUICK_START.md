@@ -36,12 +36,15 @@ cd quicknotes-ai
 git checkout -b feature/implementation
 
 # 4. Start Docker
-docker-compose up
+docker compose up
 ```
+
+**IMPORTANT:** Keep this terminal open! You'll see logs from all services here.
 
 Wait ~60 seconds, then verify:
 - App: http://localhost:3000
 - Supabase: http://localhost:3001
+- **Create an account - you'll get 5 sample notes automatically!**
 
 ---
 
@@ -89,27 +92,41 @@ Discuss your implementation with evaluator.
 ## Quick Commands
 
 ```bash
-# View logs
-docker-compose logs -f app
+# View all logs in real-time (RECOMMENDED - run this in a separate terminal)
+docker compose up
 
-# Restart app
-docker-compose restart app
+# Or run in background and view specific logs
+docker compose up -d
+docker compose logs -f app           # Next.js app logs
+docker compose logs -f db            # Database logs
+docker compose logs -f auth          # Auth service logs
+
+# Restart app after code changes
+docker compose restart app
 
 # Stop everything
-docker-compose down
+docker compose down
 
-# Fresh start (deletes data)
-docker-compose down -v && docker-compose up
+# Fresh start (deletes ALL data)
+docker compose down -v && docker compose up
+
+# Check service health
+docker compose ps
 ```
 
 ---
 
 ## Troubleshooting
 
+**Can't see what's happening / No logs visible:**
+- Make sure you run `docker compose up` (without `-d`)
+- The `-d` flag runs in background and hides logs
+- To see logs: `docker compose logs -f app`
+
 **Docker won't start:**
 ```bash
-docker-compose down -v
-docker-compose up
+docker compose down -v
+docker compose up
 ```
 
 **Port already in use:**
@@ -117,9 +134,20 @@ docker-compose up
 lsof -ti:3000 | xargs kill  # Mac/Linux
 ```
 
-**Services not ready:**
+**Services not ready / Can't connect:**
 - Wait 60 seconds after startup
-- Check: `docker-compose ps` (all should be "healthy")
+- Check health: `docker compose ps` (all should be "healthy")
+- View logs: `docker compose logs db` or `docker compose logs auth`
+
+**Can't register/login:**
+- Check auth logs: `docker compose logs auth`
+- Restart auth: `docker compose restart auth`
+- Verify database is healthy: `docker compose ps db`
+
+**No sample notes after signup:**
+- Sample notes are created automatically via database trigger
+- Check database logs: `docker compose logs db`
+- Verify in Supabase Studio (http://localhost:3001): Run `SELECT * FROM public.notes;`
 
 **Can't record:**
 - Loom (easiest): https://www.loom.com

@@ -15,9 +15,6 @@ export default async function NotesPage() {
     redirect('/login')
   }
 
-  // TODO: Feature 1 - Connect Notes to Database
-  // Replace this hardcoded data with real data from Supabase
-  // Fetch notes from the 'notes' table for the current user
   const hardcodedNotes = [
     {
       id: '1',
@@ -44,7 +41,6 @@ export default async function NotesPage() {
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-blue-50 to-indigo-100">
-      {/* Header */}
       <header className="bg-white border-b shadow-sm">
         <div className="max-w-6xl mx-auto px-4 py-4 flex items-center justify-between">
           <div>
@@ -59,36 +55,24 @@ export default async function NotesPage() {
         </div>
       </header>
 
-      {/* Main Content */}
       <main className="max-w-6xl mx-auto px-4 py-8">
         <div className="mb-6 flex items-center justify-between">
           <h2 className="text-xl font-semibold text-gray-900">My Notes</h2>
           <div className="flex gap-3">
-            {/* TODO: Feature 4 - AI Summarize
-                Create a Server Action that:
-                1. Fetches all user notes
-                2. Sends to OpenAI API
-                3. Returns and displays a summary */}
             <Button variant="secondary" disabled>
               AI Summarize (TODO)
             </Button>
 
-            {/* TODO: Feature 2 - Create New Note
-                Implement "+ New Note" button functionality
-                Save to Supabase and update UI */}
             <Button>+ New Note (TODO)</Button>
           </div>
         </div>
 
-        {/* Notes Grid */}
         <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-3">
           {hardcodedNotes.map((note) => (
             <Card key={note.id} className="hover:shadow-lg transition-shadow">
               <CardHeader>
                 <div className="flex items-start justify-between">
                   <CardTitle className="text-lg">{note.title}</CardTitle>
-                  {/* TODO: Feature 3 - Delete Note
-                      Remove from database and update UI */}
                   <Button variant="ghost" size="sm" disabled>
                     Delete (TODO)
                   </Button>
@@ -110,7 +94,6 @@ export default async function NotesPage() {
           ))}
         </div>
 
-        {/* Empty State (hidden when there are notes) */}
         {hardcodedNotes.length === 0 && (
           <div className="text-center py-12">
             <p className="text-gray-500 mb-4">No notes yet. Create your first note!</p>
