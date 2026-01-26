@@ -1,6 +1,6 @@
 # QuickNotes AI - Technical Assessment
 
-Welcome! This is a **2-hour live coding assessment** where you'll complete a partially built note-taking application with AI capabilities.
+Welcome! This is a **2-hour technical assessment** (15 min briefing + **75 min coding** + 30 min debrief) where you'll complete a partially built note-taking application with AI capabilities.
 
 ---
 
@@ -83,6 +83,10 @@ git checkout -b feature/implementation
 
 4. **Start the application**:
 ```bash
+# Option A: Use the setup script (recommended)
+./setup.sh
+
+# Option B: Manual start
 docker compose up
 ```
 
@@ -144,7 +148,7 @@ app/
 │   ├── supabase/
 │   │   ├── client.ts         # Client-side Supabase
 │   │   ├── server.ts         # Server-side Supabase
-│   │   └── types.ts
+│   │   └── types.ts          # Database types (Note type)
 │   └── utils.ts
 └── middleware.ts
 ```

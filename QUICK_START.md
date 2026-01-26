@@ -36,7 +36,8 @@ cd quicknotes-ai
 git checkout -b feature/implementation
 
 # 4. Start Docker
-docker compose up
+./setup.sh
+# Or manually: docker compose up
 ```
 
 **IMPORTANT:** Keep this terminal open! You'll see logs from all services here.

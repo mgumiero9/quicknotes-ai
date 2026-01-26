@@ -25,7 +25,7 @@ yarn-debug.log*
 yarn-error.log*
 
 # Local env files
-# .env - INTENTIONALLY COMMITTED for assessment (contains pre-configured API key)
+.env
 .env*.local
 
 # Vercel
@@ -62,3 +62,4 @@ EVALUATOR_*.md
 *_EVALUATOR.md
 SCORECARD.md
 SETUP_FOR_DISTRIBUTION.md
+.claude

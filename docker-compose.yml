@@ -1,4 +1,22 @@
 services:
+  # Database Migrations Runner
+  migrations:
+    container_name: quicknotes-migrations
+    image: postgres:15-alpine
+    depends_on:
+      db:
+        condition: service_healthy
+      auth:
+        condition: service_started
+    environment:
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
+    volumes:
+      - ./supabase/migrations:/migrations:ro
+    entrypoint: ["/bin/sh", "/migrations/run-migrations.sh"]
+    networks:
+      - quicknotes-network
+    restart: "no"
+
   # Next.js Application
   app:
     build:
@@ -10,13 +28,18 @@ services:
     environment:
       - NEXT_PUBLIC_SUPABASE_URL=http://localhost:8000
       - NEXT_PUBLIC_SUPABASE_ANON_KEY=${SUPABASE_ANON_KEY}
+      - SUPABASE_URL=http://kong:8000
+      - SUPABASE_ANON_KEY=${SUPABASE_ANON_KEY}
       - OPENAI_API_KEY=${OPENAI_API_KEY}
     volumes:
       - ./app:/app
       - /app/node_modules
       - /app/.next
     depends_on:
-      - kong
+      kong:
+        condition: service_healthy
+      migrations:
+        condition: service_completed_successfully
     networks:
       - quicknotes-network
     command: npm run dev
@@ -257,7 +280,7 @@ services:
       - log_min_messages=info
     restart: unless-stopped
     ports:
-      - "5432:5432"
+      - "5433:5432"
     environment:
       POSTGRES_HOST: /var/run/postgresql
       POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}

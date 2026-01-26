@@ -4,6 +4,15 @@ import { signout } from './login/actions'
 import { Button } from '@/components/ui/button'
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card'
 
+// =============================================================================
+// QUICKNOTES AI - TECHNICAL ASSESSMENT
+// =============================================================================
+// Welcome! You need to implement 4 features in this file.
+// Look for TODO comments below for each feature.
+//
+// DATABASE SCHEMA:
+// notes (id, user_id, title, content, created_at, updated_at)
+
 export default async function NotesPage() {
   const supabase = await createClient()
 
@@ -15,6 +24,11 @@ export default async function NotesPage() {
     redirect('/login')
   }
 
+  // ===========================================================================
+  // TODO 1: CONNECT NOTES TO DATABASE
+  // ===========================================================================
+  // Replace this hardcoded array with real data from Supabase.
+  
   const hardcodedNotes = [
     {
       id: '1',
@@ -29,14 +43,7 @@ export default async function NotesPage() {
       content:
         'Discussed project timeline and deliverables. Team agreed on weekly sprints. Next meeting scheduled for Friday at 2 PM.',
       created_at: '2024-01-16T14:30:00Z',
-    },
-    {
-      id: '3',
-      title: 'Ideas for New Features',
-      content:
-        'Consider adding: dark mode, markdown support, tagging system, and search functionality. Priority: search first.',
-      created_at: '2024-01-17T09:15:00Z',
-    },
+    }
   ]
 
   return (
@@ -59,11 +66,29 @@ export default async function NotesPage() {
         <div className="mb-6 flex items-center justify-between">
           <h2 className="text-xl font-semibold text-gray-900">My Notes</h2>
           <div className="flex gap-3">
+            {/* ================================================================
+                TODO 4: AI SUMMARIZE FEATURE
+                ================================================================
+                Implement a button that:
+                1. Fetches all user's notes
+                2. Sends them to OpenAI API to generate a summary
+                3. Displays the summary to the user (modal, alert, or new section)
+             
+                ================================================================ */}
             <Button variant="secondary" disabled>
               AI Summarize (TODO)
             </Button>
 
-            <Button>+ New Note (TODO)</Button>
+            {/* ================================================================
+                TODO 2: CREATE NEW NOTE
+                ================================================================
+                Implement a button/form that:
+                1. Shows a form to input title and content
+                2. Saves the new note to Supabase
+                3. Refreshes the notes list
+
+                ================================================================ */}
+            <Button disabled>+ New Note (TODO)</Button>
           </div>
         </div>
 
@@ -73,6 +98,14 @@ export default async function NotesPage() {
               <CardHeader>
                 <div className="flex items-start justify-between">
                   <CardTitle className="text-lg">{note.title}</CardTitle>
+                  {/* ============================================================
+                      TODO 3: DELETE NOTE
+                      ============================================================
+                      Implement a delete button that:
+                      1. Removes the note from Supabase
+                      2. Refreshes the notes list
+
+                      ============================================================ */}
                   <Button variant="ghost" size="sm" disabled>
                     Delete (TODO)
                   </Button>
