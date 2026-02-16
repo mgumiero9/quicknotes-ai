@@ -3,6 +3,9 @@ import { createClient } from '@/lib/supabase/server'
 import { signout } from './login/actions'
 import { Button } from '@/components/ui/button'
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card'
+import { CreateNote } from '@/components/create-note'
+import { DeleteNote } from '@/components/delete-note'
+import AISummary from './AISummary'
 
 // =============================================================================
 // QUICKNOTES AI - TECHNICAL ASSESSMENT
@@ -12,6 +15,15 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/com
 //
 // DATABASE SCHEMA:
 // notes (id, user_id, title, content, created_at, updated_at)
+
+interface Note {
+  id: string
+  user_id: string
+  title: string
+  content: string
+  created_at: string
+  updated_at?: string
+}
 
 export default async function NotesPage() {
   const supabase = await createClient()
@@ -24,27 +36,11 @@ export default async function NotesPage() {
     redirect('/login')
   }
 
-  // ===========================================================================
-  // TODO 1: CONNECT NOTES TO DATABASE
-  // ===========================================================================
-  // Replace this hardcoded array with real data from Supabase.
-  
-  const hardcodedNotes = [
-    {
-      id: '1',
-      title: 'Welcome to QuickNotes AI',
-      content:
-        'This is your first note! You can create, edit, and delete notes. Try the AI Summarize feature to get a summary of all your notes.',
-      created_at: '2024-01-15T10:00:00Z',
-    },
-    {
-      id: '2',
-      title: 'Meeting Notes - Project Kickoff',
-      content:
-        'Discussed project timeline and deliverables. Team agreed on weekly sprints. Next meeting scheduled for Friday at 2 PM.',
-      created_at: '2024-01-16T14:30:00Z',
-    }
-  ]
+  const { data: notes, error } = await supabase
+    .from('notes')
+    .select('*')
+    .eq('user_id', user.id)
+    .order('created_at', { ascending: false })
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-blue-50 to-indigo-100">
@@ -66,49 +62,18 @@ export default async function NotesPage() {
         <div className="mb-6 flex items-center justify-between">
           <h2 className="text-xl font-semibold text-gray-900">My Notes</h2>
           <div className="flex gap-3">
-            {/* ================================================================
-                TODO 4: AI SUMMARIZE FEATURE
-                ================================================================
-                Implement a button that:
-                1. Fetches all user's notes
-                2. Sends them to OpenAI API to generate a summary
-                3. Displays the summary to the user (modal, alert, or new section)
-             
-                ================================================================ */}
-            <Button variant="secondary" disabled>
-              AI Summarize (TODO)
-            </Button>
-
-            {/* ================================================================
-                TODO 2: CREATE NEW NOTE
-                ================================================================
-                Implement a button/form that:
-                1. Shows a form to input title and content
-                2. Saves the new note to Supabase
-                3. Refreshes the notes list
-
-                ================================================================ */}
-            <Button disabled>+ New Note (TODO)</Button>
+            <CreateNote />
+            <AISummary />
           </div>
         </div>
 
         <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-3">
-          {hardcodedNotes.map((note) => (
+          {notes?.map((note: Note) => (
             <Card key={note.id} className="hover:shadow-lg transition-shadow">
               <CardHeader>
                 <div className="flex items-start justify-between">
                   <CardTitle className="text-lg">{note.title}</CardTitle>
-                  {/* ============================================================
-                      TODO 3: DELETE NOTE
-                      ============================================================
-                      Implement a delete button that:
-                      1. Removes the note from Supabase
-                      2. Refreshes the notes list
-
-                      ============================================================ */}
-                  <Button variant="ghost" size="sm" disabled>
-                    Delete (TODO)
-                  </Button>
+                  <DeleteNote id={note.id} />
                 </div>
                 <CardDescription>
                   {new Date(note.created_at).toLocaleDateString('en-US', {
@@ -127,13 +92,14 @@ export default async function NotesPage() {
           ))}
         </div>
 
-        {hardcodedNotes.length === 0 && (
+        {(!notes || notes.length === 0) && (
           <div className="text-center py-12">
             <p className="text-gray-500 mb-4">No notes yet. Create your first note!</p>
-            <Button>+ Create Note</Button>
+            <CreateNote />
           </div>
-        )}
-      </main>
-    </div>
+        )
+        }
+      </main >
+    </div >
   )
 }
